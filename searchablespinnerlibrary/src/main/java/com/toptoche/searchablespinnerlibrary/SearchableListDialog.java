@@ -17,9 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-import androidx.appcompat.widget.SearchView;
-import android.widget.EditText;
-import android.view.inputmethod.InputMethodManager;
 
 import java.io.Serializable;
 import java.util.List;
@@ -149,15 +146,7 @@ public class SearchableListDialog extends DialogFragment implements
         _searchView.setIconifiedByDefault(false);
         _searchView.setOnQueryTextListener(this);
         _searchView.setOnCloseListener(this);
-        // Get reference to the EditText inside the SearchView
-    EditText searchEditText = _searchView.findViewById(androidx.appcompat.R.id.search_src_text);
-
-    // Request focus on the EditText
-    searchEditText.requestFocus();
-
-    // Open the soft keyboard
-    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-    imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT);
+        _searchView.clearFocus();
 
         List items = (List) getArguments().getSerializable(ITEMS);
 
