@@ -146,11 +146,9 @@ public class SearchableListDialog extends DialogFragment implements
         _searchView.setIconifiedByDefault(false);
         _searchView.setOnQueryTextListener(this);
         _searchView.setOnCloseListener(this);
-        _searchView.clearFocus();
-        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context
-                .INPUT_METHOD_SERVICE);
+        _searchView.requestFocus();
+        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.hideSoftInputFromWindow(_searchView.getWindowToken(), 0);
-
 
         List items = (List) getArguments().getSerializable(ITEMS);
 
