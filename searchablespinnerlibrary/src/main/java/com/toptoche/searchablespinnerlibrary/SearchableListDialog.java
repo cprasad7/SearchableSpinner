@@ -146,7 +146,11 @@ public class SearchableListDialog extends DialogFragment implements
         _searchView.setIconifiedByDefault(false);
         _searchView.setOnQueryTextListener(this);
         _searchView.setOnCloseListener(this);
-        _searchView.clearFocus();
+        _searchView.requestFocus();
+
+    // Open the soft keyboard
+    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+    imm.showSoftInput(_searchView, InputMethodManager.SHOW_IMPLICIT);
 
         List items = (List) getArguments().getSerializable(ITEMS);
 
