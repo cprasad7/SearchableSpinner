@@ -61,7 +61,7 @@ public class SearchableListDialog extends DialogFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _searchView.requestFocus()
+
     }
 
     @Override
@@ -73,43 +73,37 @@ public class SearchableListDialog extends DialogFragment implements
     }
 
     @Override
-public Dialog onCreateDialog(Bundle savedInstanceState) {
-    LayoutInflater inflater = LayoutInflater.from(getActivity());
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-    if (null != savedInstanceState) {
-        _searchableItem = (SearchableItem) savedInstanceState.getSerializable("item");
-    }
+        // Getting the layout inflater to inflate the view in an alert dialog.
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
 
-    View rootView = inflater.inflate(R.layout.searchable_list_dialog, null);
-    setData(rootView);
-
-    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-    alertDialog.setView(rootView);
-
-    String strPositiveButton = _strPositiveButtonText == null ? "CLOSE" : _strPositiveButtonText;
-    alertDialog.setPositiveButton(strPositiveButton, _onClickListener);
-
-    String strTitle = _strTitle == null ? "Select Item" : _strTitle;
-    alertDialog.setTitle(strTitle);
-
-    final AlertDialog dialog = alertDialog.create();
-
-    // Set a handler to focus on the SearchView after the dialog is shown
-    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-        @Override
-        public void onShow(DialogInterface dialogInterface) {
-            // Request focus on the SearchView
-            _searchView.requestFocus();
-
-            // Open the soft keyboard
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(_searchView, InputMethodManager.SHOW_IMPLICIT);
+        // Crash on orientation change #7
+        // Change Start
+        // Description: As the instance was re initializing to null on rotating the device,
+        // getting the instance from the saved instance
+        if (null != savedInstanceState) {
+            _searchableItem = (SearchableItem) savedInstanceState.getSerializable("item");
         }
-    });
+        // Change End
 
-    return dialog;
-}
+        View rootView = inflater.inflate(R.layout.searchable_list_dialog, null);
+        setData(rootView);
 
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setView(rootView);
+
+        String strPositiveButton = _strPositiveButtonText == null ? "CLOSE" : _strPositiveButtonText;
+        alertDialog.setPositiveButton(strPositiveButton, _onClickListener);
+
+        String strTitle = _strTitle == null ? "Select Item" : _strTitle;
+        alertDialog.setTitle(strTitle);
+
+        final AlertDialog dialog = alertDialog.create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams
+                .SOFT_INPUT_STATE_HIDDEN);
+        return dialog;
+    }
 
     // Crash on orientation change #7
     // Change Start
@@ -152,13 +146,9 @@ public Dialog onCreateDialog(Bundle savedInstanceState) {
         _searchView.setIconifiedByDefault(false);
         _searchView.setOnQueryTextListener(this);
         _searchView.setOnCloseListener(this);
+        _searchView.clearFocus();
 
-            _searchView.setFocusable(true);
-    _searchView.setIconified(false);
-    _searchView.requestFocusFromTouch();
-    _searchView.requestFocus();
-
-    List items = (List) getArguments().getSerializable(ITEMS);
+        List items = (List) getArguments().getSerializable(ITEMS);
 
         _listViewItems = (ListView) rootView.findViewById(R.id.listItems);
 
