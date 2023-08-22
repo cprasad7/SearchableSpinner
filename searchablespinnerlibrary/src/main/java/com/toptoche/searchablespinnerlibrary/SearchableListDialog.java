@@ -61,7 +61,7 @@ public class SearchableListDialog extends DialogFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        _searchView.requestFocus()
     }
 
     @Override
