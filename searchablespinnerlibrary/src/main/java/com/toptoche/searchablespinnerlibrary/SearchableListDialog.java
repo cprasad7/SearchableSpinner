@@ -152,7 +152,12 @@ public Dialog onCreateDialog(Bundle savedInstanceState) {
         _searchView.setIconifiedByDefault(false);
         _searchView.setOnQueryTextListener(this);
         _searchView.setOnCloseListener(this);
-        _searchView.clearFocus();
+        // Request focus on the EditText
+    searchEditText.requestFocus();
+
+    // Open the soft keyboard
+    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+    imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT);
 
         List items = (List) getArguments().getSerializable(ITEMS);
 
